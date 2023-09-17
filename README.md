@@ -1,4 +1,10 @@
 # Sprint 03 - SafeFlood:
+João Pedro Borsato da Cruz - RM550290 <br>
+Julia Ortiz de Jesus - RM550204 <br> 
+Leonardo de Oliveira Ruiz - RM98901 <br>
+Maria Fernanda Vieira de Camargo - RM97956 <br>
+
+<br>
 Para uma melhor compreensão do código, recomendamos visualizar primerio os seguintes branches: <br>
 01- arduino <br>
 02- function node-red <br>
