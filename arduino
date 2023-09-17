@@ -1,0 +1,169 @@
+#include "DHT.h"
+#include "Adafruit_Sensor.h"
+#include <ArduinoJson.h>
+
+#define trigPin6
+#define echoPin 5
+
+#define DHTPIN 7 //define o pino usado no arduino
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE); //declara a objeto da classe
+
+int inches = 0;
+int cm = 0;
+int greenLedPin = 10;
+int yellowLedPin = 9;
+int redLedPin = 13 ;
+int buzzer = 8;
+
+int counter;
+float duration;
+float distance;
+unsigned long time;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(greenLedPin, OUTPUT);
+  pinMode(yellowLedPin, OUTPUT);
+  pinMode(redLedPin, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.println("DHTxx test!");
+  dht.begin();
+
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+}
+
+
+void loop()
+{
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  duration = 0;
+  counter = 0;
+  while (--counter != 0) 
+  {
+    if (PINB & 2) 
+    {
+      time = micros();
+      break;
+    }
+  }
+  while (--counter != 0) 
+  {
+    if ((PINB & 2) == 0) 
+    {
+      duration = micros() - time;
+      break;
+    }
+  }
+
+  distance = (duration / 2) * 0.0344;  
+
+  cm = 0.01723 * readUltrasonicDistance(triggerPin, echoPin);
+  
+  inches = (cm / 2.54);
+  Serial.print(inches);
+  Serial.print("in, ");
+  Serial.print(cm);
+  Serial.println("cm");
+  delay(100); 
+
+ 
+  if (cm <= 30) {
+    digitalWrite(greenLedPin, HIGH);
+    digitalWrite(yellowLedPin, LOW);
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(buzzer, LOW);
+  
+  }
+  
+  else if (cm > 30 && cm < 50) {
+    digitalWrite(greenLedPin, LOW);
+    digitalWrite(yellowLedPin, HIGH);
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(buzzer, HIGH);
+    delay(500);
+    digitalWrite(buzzer, LOW);     
+  }
+  
+  else {
+    digitalWrite(greenLedPin, LOW);
+    digitalWrite(yellowLedPin, LOW);
+    digitalWrite(redLedPin,HIGH);
+    digitalWrite(buzzer,HIGH);
+  float h = dht.readHumidity(); // faz leitura da umidade
+  float t = dht.readTemperature(); // faz leitura da temperatura
+  // testa se retorno é valido, caso contrário algo está errado.
+  if (isnan(t) || isnan(h))
+  {
+  Serial.println("Falha na leitura do sensor DHT");
+  }
+  else
+  {
+  Serial.print("Umidade: ");
+  Serial.print(h);
+  Serial.print(" %t");
+  Serial.print("Temperatura: ");
+  Serial.print(t);
+  Serial.println(" *C");
+  }
+  delay(500); //delay de 0,5s
+
+	StaticJsonDocument<100> json; // Tamanho do buffer para o JSON
+
+  if (distance > 400) 
+  {
+    json["distance"] = "> 400";
+  } 
+  else if (distance < 2) 
+  {
+    json["distance"] = "< 2";
+  } 
+  else 
+  {
+    json["distance"] = distance;
+  }
+
+if (h > 400) 
+  {
+    json["humidity"] = "> 400";
+  } 
+  else if (h< 2) 
+  {
+    json["humidity"] = "< 2";
+  } 
+  else 
+  {
+    json["humidity"] = h;
+  }
+
+if (t > 400) 
+  {
+    json["temperature"] = "> 400";
+  } 
+  else if (t < 2) 
+  {
+    json["temperature"] = "< 2";
+  } 
+  else 
+  {
+    json["temperature"] = t;
+  }
+
+
+  String jsonString;
+  serializeJson(json, jsonString);
+  
+  Serial.println(jsonString); // Envia o JSON via serial
+
+  delay(1000);
+}
+}}
