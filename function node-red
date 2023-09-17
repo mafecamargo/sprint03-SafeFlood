@@ -1,0 +1,11 @@
+var data = {
+    payload:{
+        "temperatura": msg.payload.main.temp,
+        "min": msg.payload.main.temp_min,
+        "max": msg.payload.main.temp_max,
+        "nuvens": msg.payload.clouds.all,
+        "umidade": msg.payload.main.humidity,
+        "vento": msg.payload.wind.speed
+    }
+}
+return data;
