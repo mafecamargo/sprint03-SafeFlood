@@ -15,9 +15,9 @@ Utilizando Json, esse código traz as variáveis necessárias para acessar as va
 
 # Para um entendimento maior recomendamos: <br>
   https://fiapcom-my.sharepoint.com/:p:/g/personal/rm97956_fiap_com_br/EUcKIR1IkBtBspMGqecDNFQB0hZxeSfc6rCT5U1urutOqg?e=ONI4MX
-
-  Safe Flood é um projeto criado com a intenção de ajudar a comunidade com enchentes.
-Para isso, utilizaremos tanto IoT quanto Arduino. 
+<br>
+  Safe Flood é um projeto criado com a intenção de ajudar a comunidade com enchentes. <br>
+Para isso, utilizaremos tanto IoT quanto Arduino. <br>
 O IoT é uma tecnologia que envolve a interconexão de objetos físicos e dispositivos à Internet, permitindo a coleta, análise e compartilhamento de dados entre esses dispositivos. ​
 Essa interconexão cria uma rede de dispositivos inteligentes que podem coletar informações do ambiente, trocar dados entre si e tomar ações automatizadas com base nos dados coletados. ​<br>
 A importância da IoT reside em seu potencial para transformar diversos setores e melhorar a eficiência, a produtividade e a qualidade de vida.​
